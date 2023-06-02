@@ -1,0 +1,41 @@
+==================getAllUsers==================
+query getAllUsers{
+	users{
+        id
+        name
+        age
+    }
+}
+
+==================getAllQuates==================
+query getAllQuates{
+	quates{
+        name
+    }
+}
+==================getAllUserWithQuotes==================
+query getAllUserWithQuotes{
+	users{
+        id
+        name
+        age
+        quates{by name}
+    }
+}
+==================getUserById==================
+query getUserById{
+	user(id:1){
+        id
+        name
+        age
+        quates{by name}
+    }
+}
+
+==================getQuotesById==================
+query getQuotesById{
+	iquote(id:1){
+      by
+			name
+    }
+}
