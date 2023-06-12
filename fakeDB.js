@@ -1,17 +1,17 @@
 export const users = [
   {
-    id: 1,
-    name: "vyom",
-    email: "nab@gmail.com",
-    password: "123@Test",
-    age: 23,
+    _id: 1,
+    firstName: "vyom",
+    email:"nab@gmail.com",
+    password : "123@Test",
+    lastName: 23,
   },
   {
-    id: 2,
-    name: "akash",
-    email: "nab@gmail.com",
+    _id: 2,
+    firstName: "akash",
+   email : "nab@gmail.com",
     password: "123@Test",
-    age: 33,
+    lastName: 33,
   },
 ];
 

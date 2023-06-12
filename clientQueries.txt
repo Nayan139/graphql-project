@@ -1,7 +1,7 @@
 ==================getAllUsers==================
 query getAllUsers{
 	users{
-        id
+        _id
         name
         age
     }
@@ -16,7 +16,7 @@ query getAllQuates{
 ==================getAllUserWithQuotes==================
 query getAllUserWithQuotes{
 	users{
-        id
+        _id
         name
         age
         quates{by name}
@@ -24,8 +24,8 @@ query getAllUserWithQuotes{
 }
 ==================getUserById==================
 query getUserById{
-	user(id:1){
-        id
+	user(_id:1){
+        _id
         name
         age
         quates{by name}
@@ -34,7 +34,25 @@ query getUserById{
 
 ==================getQuotesById==================
 query getQuotesById{
-	iquote(id:1){
+	iquote(_id:1){
+      by
+			name
+    }
+}
+==================getUserById Dyanmic==================
+
+query getUserById($userId:ID!){
+	user(_id:$userId){
+        _id
+        name
+        age
+        quates{by name}
+    }
+}
+==================getQuotesById Dynamic==================
+
+query getQuotesById($quoteID:ID!){
+	iquote(_id:$quoteID){
       by
 			name
     }
