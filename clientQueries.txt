@@ -57,3 +57,39 @@ query getQuotesById($quoteID:ID!){
 			name
     }
 }
+==================mutation createUser==================
+
+
+mutation createUser($userNew:UserInput!){
+ user: signupUser(userNew:$userNew){
+   _id
+        firstName
+        lastName,
+    		email,
+    		password,
+    	quates{by name}
+  }
+}
+
+{
+  "userNew": {
+    "firstName": "abcde",
+    "email": "abcd@gmail.com",
+    "lastName": "Abcd@123",
+    "password": "22"
+  }
+}
+
+==================mutation createUser signIn==================
+mutation createUser($signIn:SigninInput!){
+ user: signInUser(signIn:$signIn){
+    		token  
+	}
+}
+
+{
+  "signIn": {
+    "email": "abcd@gmail.com",
+    "password": "22"
+  }
+}

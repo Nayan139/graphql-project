@@ -9,31 +9,42 @@ const typeDefs = gql`
     users: [User]
     user(_id: ID!): User
     iquote(_id: ID!): [Quate]
-    quates: [Quate]
+    quates: [QuatewithName]
+  }
+
+  type QuatewithName{
+    name:String!
+    by:IdName
+  }
+
+  type IdName{
+    _id:String
+    firstName:String
   }
 
   type User {
     _id: ID
-    firstName: String
-    lastName: String
-    email: String
-    password:String
+    firstName: String!
+    lastName: String!
+    email: String!
+    password:String!
     quates: [Quate]
   }
 
   type Quate {
-    name: String
+    name: String!
     by: ID!
   }
 
   type Token {
-    token: String
+    token: String!
   }
 
 
   type Mutation {
     signupUser(userNew:UserInput!):User
     signInUser(signIn: SigninInput!): Token
+    createQuote(name: String!): String!
   }
 
   input SigninInput{
