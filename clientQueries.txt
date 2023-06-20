@@ -59,15 +59,15 @@ query getQuotesById($quoteID:ID!){
 }
 ==================mutation createUser==================
 
-
 mutation createUser($userNew:UserInput!){
  user: signupUser(userNew:$userNew){
-   _id
-        firstName
-        lastName,
-    		email,
-    		password,
-    	quates{by name}
+    status,
+    message,
+    User{
+  _id
+      firstName
+      lastName
+}
   }
 }
 
@@ -81,9 +81,12 @@ mutation createUser($userNew:UserInput!){
 }
 
 ==================mutation createUser signIn==================
-mutation createUser($signIn:SigninInput!){
+mutation createUserSignin($signIn:SigninInput!){
  user: signInUser(signIn:$signIn){
-    		token  
+    		  code,
+    status,
+    message,
+  Token
 	}
 }
 

@@ -3,7 +3,6 @@ import { gql } from "apollo-server-core";
 //Query
 // Below are the Types schema
 const typeDefs = gql`
-
   type Query {
     greet: String
     users: [User]
@@ -12,14 +11,14 @@ const typeDefs = gql`
     quates: [QuatewithName]
   }
 
-  type QuatewithName{
-    name:String!
-    by:IdName
+  type QuatewithName {
+    name: String!
+    by: IdName
   }
 
-  type IdName{
-    _id:String
-    firstName:String
+  type IdName {
+    _id: String
+    firstName: String
   }
 
   type User {
@@ -27,8 +26,22 @@ const typeDefs = gql`
     firstName: String!
     lastName: String!
     email: String!
-    password:String!
+    password: String!
     quates: [Quate]
+  }
+
+  type Response {
+    code: Int!
+    status: Boolean!
+    message: String!
+    User: User
+  }
+
+  type singin {
+    code: Int!
+    status: Boolean!
+    message: String!
+    Token: String
   }
 
   type Quate {
@@ -40,19 +53,18 @@ const typeDefs = gql`
     token: String!
   }
 
-
   type Mutation {
-    signupUser(userNew:UserInput!):User
-    signInUser(signIn: SigninInput!): Token
+    signupUser(userNew: UserInput!): Response
+    signInUser(signIn: SigninInput!): singin
     createQuote(name: String!): String!
   }
 
-  input SigninInput{
+  input SigninInput {
     email: String!
     password: String!
   }
 
-  input UserInput{
+  input UserInput {
     firstName: String!
     lastName: String!
     email: String!

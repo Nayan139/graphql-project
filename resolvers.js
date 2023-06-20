@@ -12,7 +12,7 @@ const resolvers = {
     greet: () => "Hello world.",
     users: async () => await User.find(),
     user: async (parent, { _id }) => await User.findById(_id),
-    quates: async () => await Quote.find().populate("by","_id firstName"),
+    quates: async () => await Quote.find().populate("by", "_id firstName"),
     iquote: async (parent, { _id }) => {
       const id = new ObjectId(_id);
       return await Quote.find({ by: id });
@@ -23,43 +23,81 @@ const resolvers = {
   },
   Mutation: {
     signupUser: async (_, { userNew }) => {
-      const user = await User.findOne({ email: userNew.email });
-      const hashPassword = await bcrypt.hash(userNew.password, 12);
-      console.log("hashPassword---userNew", hashPassword, userNew);
-      if (user) {
-        throw new Error("User already exist with this email");
+      try {
+        const user = await User.findOne({ email: userNew.email });
+        const hashPassword = await bcrypt.hash(userNew.password, 12);
+        if (user) {
+          return {
+            code: 400,
+            status: false,
+            message: "User already exist with this email",
+          };
+        }
+        const newUser = new User({
+          ...userNew,
+          password: hashPassword,
+        });
+        await newUser.save();
+        // return newUser;
+        return {
+          code: 200,
+          status: true,
+          message: "Signup successfully",
+          User: newUser,
+        };
+      } catch (error) {
+        return {
+          code: 500,
+          status: false,
+          message: "Something went to wrong. Please try again!",
+        };
       }
-      const newUser = new User({
-        ...userNew,
-        password: hashPassword,
-      });
-      await newUser.save();
-      return newUser;
     },
 
     signInUser: async (_, { signIn }) => {
-      const user = await User.findOne({ email: signIn.email });
-      if (!user) {
-        throw new Error("User doesn't exist with this email");
-      }
-      const isMatched = await bcrypt.compare(signIn.password, user.password);
-
-      if (!isMatched) {
-        throw new Error("Email and Password is inValid.");
-      }
-
-      const token = Jwt.sign(
-        {
-          userId: user._id,
-          email: user.email,
-        },
-        "Test@123",
-        {
-          expiresIn: 31556926,
+      try {
+        const user = await User.findOne({ email: signIn.email });
+        if (!user) {
+          return {
+            code: 400,
+            status: false,
+            message: "User doesn't exist with this email",
+          };
         }
-      );
-      console.log("hashPassword---signIn", isMatched, token);
-      return { token };
+        const isMatched = await bcrypt.compare(signIn.password, user.password);
+
+        if (!isMatched) {
+          return {
+            code: 400,
+            status: false,
+            message: "Email and Password is inValid.",
+          };
+        }
+
+        const token = Jwt.sign(
+          {
+            userId: user._id,
+            email: user.email,
+          },
+          "Test@123",
+          {
+            expiresIn: 31556926,
+          }
+        );
+        console.log("hashPassword---signIn", isMatched, token);
+         return {
+          code: 200,
+          status: true,
+          message: "Signin successfully",
+          Token: token,
+        };
+      } catch (error) {
+        return {
+          code: 500,
+          status: false,
+          message: "Something went to wrong. Please try again!",
+        };
+      }
     },
 
     createQuote: async (_, { name }, { userId, email }) => {
